@@ -1,6 +1,10 @@
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.lang.Integer;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 /**
  * Class BallDemo - provides a demonstration of the
@@ -38,6 +42,50 @@ public class BallDemo
         myCanvas.draw(rect);
     }
     
+    public Color randomColor(){
+         int randomNum = ThreadLocalRandom.current().nextInt(1, 12 + 1);
+         Color cor = new Color(0,0,0); 
+         switch(randomNum){
+             case 1:
+                cor = Color.black;
+             break;
+             case 2:
+                cor = Color.blue;
+             break;
+             case 3:
+                cor = Color.cyan;
+             break;
+             case 4:
+                cor = Color.darkGray;
+             break;
+             case 5:
+                cor = Color.gray;
+             break;
+             case 6:
+                cor = Color.green;
+             break;
+             case 7:
+                cor = Color.lightGray;
+             break;
+             case 8:
+                cor = Color.magenta;
+             break;
+             case 9:
+                cor = Color.orange;
+             break;
+             case 10:
+                cor = Color.pink;
+             break;
+             case 11:
+                cor = Color.red;
+             break;
+             case 12:
+                cor = Color.yellow;
+             break;
+         }
+         return cor;
+    }
+    
     /**
      * Simulate n bouncing balls
      */
@@ -54,32 +102,31 @@ public class BallDemo
         myCanvas.drawLine(xStart, ground, xLimit, ground);
 
         // crate and show the balls
-        ArrayList balls = new ArrayList();
+        Map<Integer, BouncingBall> balls = new HashMap<Integer, BouncingBall>();
         //BouncingBall[] balls = new BouncingBall[nBalls];
-        for(BouncingBall i : nBalls){
-            balls.add(new BouncingBall(xStart, 50, 16, Color.blue, ground, myCanvas));
-            BouncingBall b = balls.get(i);
-            b.draw();
+        for(int i=0; i<nBalls; i++){
+            int randomX = ThreadLocalRandom.current().nextInt(xPosStart, WIDTH + 1);
+            int randomY = ThreadLocalRandom.current().nextInt(yPosStart, HEIGHT + 1);
+            int randomTam = ThreadLocalRandom.current().nextInt(10, 30 + 1);
+            int randomColor = ThreadLocalRandom.current().nextInt(1, 13 + 1);
+            balls.put(i, new BouncingBall(randomX, randomY, randomTam, randomColor(), ground, myCanvas));
+            balls.get(i).draw();
         }
-        
-        BouncingBall ball = new BouncingBall(xStart, 50, 16, Color.blue, ground, myCanvas);
-        ball.draw();
-        BouncingBall ball2 = new BouncingBall(xStart + 20, 80, 20, Color.red, ground, myCanvas);
-        ball2.draw();
-
-        // Make them bounce until both have gone beyond the xLimit.
-        boolean finished =  false;
-        while(!finished) {
-            myCanvas.wait(50);           // small delay
-            ball.move();
-            ball2.move();
-            // stop once ball has travelled a certain distance on x axis
-            if(ball.getXPosition() >= xLimit && ball2.getXPosition() >= xLimit) {
-                finished = true;
+        int control = 0;
+        while(control<nBalls || !balls.isEmpty()) {
+            for(int i=0; i<nBalls; i++){
+                myCanvas.wait(25);           // small delay
+                balls.get(i).move();
+                if(balls.get(i).getXPosition() >= xLimit) {
+                    //finished = true;
+                    control++;
+                    balls.get(i).erase();
+                }
             }
         }
-        ball.erase();
-        ball2.erase();
-    }
-    
+        for(int i=0; i<nBalls && !balls.isEmpty(); i++){
+            balls.get(i).erase();
+        }
+    }    
 }
+
