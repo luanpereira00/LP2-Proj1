@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=CanvasDemo
+comment0.text=\r\n\ An\ illustration\ of\ the\ methods\ of\ the\ Canvas\ class.\r\n\ \r\n\ @author\ Michael\ Kolling\ and\ David\ J.\ Barnes\r\n\ @version\ 2010.11.30\r\n
+comment1.params=
+comment1.target=CanvasDemo()
+comment1.text=\r\n\ Create\ a\ CanvasDemo\ object.\r\n\ Creates\ a\ fresh\ canvas\ and\ makes\ it\ visible.\r\n
+comment2.params=
+comment2.target=void\ drawDemo()
+comment2.text=\r\n\ Demonstrate\ some\ of\ the\ drawing\ operations\ that\ are\r\n\ available\ on\ a\ Canvas\ object.\r\n
+numComments=3
