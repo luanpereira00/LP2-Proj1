@@ -1,7 +1,8 @@
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
+import java.util.ArrayList;
 import java.lang.Integer;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -102,30 +103,31 @@ public class BallDemo
         myCanvas.drawLine(xStart, ground, xLimit, ground);
 
         // crate and show the balls
-        Map<Integer, BouncingBall> balls = new HashMap<Integer, BouncingBall>();
+        //Map<Integer, BouncingBall> balls = new HashMap<Integer, BouncingBall>();
+        ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>();
         //BouncingBall[] balls = new BouncingBall[nBalls];
         for(int i=0; i<nBalls; i++){
             int randomX = ThreadLocalRandom.current().nextInt(xPosStart, WIDTH + 1);
-            int randomY = ThreadLocalRandom.current().nextInt(yPosStart, HEIGHT + 1);
+            int randomY = ThreadLocalRandom.current().nextInt(yPosStart, HEIGHT/2 + 1);
             int randomTam = ThreadLocalRandom.current().nextInt(10, 30 + 1);
             int randomColor = ThreadLocalRandom.current().nextInt(1, 13 + 1);
-            balls.put(i, new BouncingBall(randomX, randomY, randomTam, randomColor(), ground, myCanvas));
+            balls.add(new BouncingBall(randomX, randomY, randomTam, randomColor(), ground, myCanvas));
             balls.get(i).draw();
         }
-        int control = 0;
-        while(control<nBalls || !balls.isEmpty()) {
-            for(int i=0; i<nBalls; i++){
-                myCanvas.wait(25);           // small delay
+        boolean finished=true;
+        while(finished) {
+            myCanvas.wait(25);     
+            for(int i=0; i<balls.size(); i++){
+                      // small delay
                 balls.get(i).move();
                 if(balls.get(i).getXPosition() >= xLimit) {
-                    //finished = true;
-                    control++;
                     balls.get(i).erase();
+                    balls.remove(i);
+                    if(balls.isEmpty()){
+                        finished = false;
+                    }
                 }
             }
-        }
-        for(int i=0; i<nBalls && !balls.isEmpty(); i++){
-            balls.get(i).erase();
         }
     }    
 }
