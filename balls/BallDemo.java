@@ -43,6 +43,9 @@ public class BallDemo
         myCanvas.draw(rect);
     }
     
+    /**
+     * Cria e retorna um objeto Color aleatório
+     */
     public Color randomColor(){
          int randomNum = ThreadLocalRandom.current().nextInt(1, 12 + 1);
          Color cor = new Color(0,0,0); 
@@ -103,12 +106,12 @@ public class BallDemo
         myCanvas.drawLine(xStart, ground, xLimit, ground);
 
         // crate and show the balls
-        //Map<Integer, BouncingBall> balls = new HashMap<Integer, BouncingBall>();
+        
         ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>();
-        //BouncingBall[] balls = new BouncingBall[nBalls];
+        
         for(int i=0; i<nBalls; i++){
             int randomX = ThreadLocalRandom.current().nextInt(xPosStart, WIDTH + 1);
-            int randomY = ThreadLocalRandom.current().nextInt(yPosStart, HEIGHT/2 + 1);
+            int randomY = ThreadLocalRandom.current().nextInt(yPosStart, HEIGHT/3 + 1);
             int randomTam = ThreadLocalRandom.current().nextInt(10, 30 + 1);
             int randomColor = ThreadLocalRandom.current().nextInt(1, 13 + 1);
             balls.add(new BouncingBall(randomX, randomY, randomTam, randomColor(), ground, myCanvas));
@@ -116,7 +119,7 @@ public class BallDemo
         }
         boolean finished=true;
         while(finished) {
-            myCanvas.wait(25);     
+            myCanvas.wait(30);     
             for(int i=0; i<balls.size(); i++){
                       // small delay
                 balls.get(i).move();
